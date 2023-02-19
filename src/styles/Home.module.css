@@ -6,12 +6,49 @@
   padding: 6rem;
   min-height: 100vh;
 }
+.mainManager {
+  background-color: #000000;
+  min-height: 100vh; 
+}
+.gridAccountCards{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(70%,auto));
+  width: var(--max-width);
+  max-width: 50%;
+}
+.gridManager{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(10%,auto));
+    width: var(--max-width);
+    max-width: 15%;
+}
+.gridManager2{
+    display: grid;
+    grid-template-rows: repeat(1, minmax(100%, auto));
+    width: var(--max-width);
+    max-width: 150%;
+}
+.h1{
+  color: black;
+}
+
+.mainAddAccount {
+  background-color: #FFFFFF;
+  min-height: 100vh; 
+}
+
+.transparent{
+
+  background-color: #b32c2c;
+  /* opacity: .4; */
+
+}
 
 .description {
   display: inherit;
   justify-content: inherit;
   align-items: inherit;
-  font-size: 0.85rem;
+  font-size: 0.80rem;
   max-width: var(--max-width);
   width: 100%;
   z-index: 2;
@@ -41,9 +78,17 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(25%, auto));
+  grid-template-columns: repeat(2, minmax(130%, auto));
   width: var(--max-width);
-  max-width: 100%;
+  max-width: 40%;
+}
+
+.gridAddAccount {
+  display: grid;
+  grid-template-rows: repeat(2, minmax(40%, auto));
+  width: var(--max-width);
+  max-width: 40%;
+  align-items: center;
 }
 
 .card {
@@ -56,7 +101,7 @@
 
 .card span {
   display: inline-block;
-  transition: transform 200ms;
+  transition: transform 200ms; 
 }
 
 .card h2 {
@@ -153,14 +198,7 @@
 
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
-  .card:hover {
-    background: rgba(var(--card-rgb), 0.1);
-    border: 1px solid rgba(var(--card-border-rgb), 0.15);
-  }
-
-  .card:hover span {
-    transform: translateX(4px);
-  }
+  
 }
 
 @media (prefers-reduced-motion) {
@@ -253,7 +291,7 @@
 /* Tablet and Smaller Desktop */
 @media (min-width: 701px) and (max-width: 1120px) {
   .grid {
-    grid-template-columns: repeat(2, 50%);
+    grid-template-columns: repeat(2, 25%);
   }
 }
 
