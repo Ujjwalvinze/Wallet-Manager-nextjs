@@ -21,7 +21,7 @@ export default function Home() {
 
             <main className={styles.main}>
                 <div className={styles.description}>
-                    <h1>
+                    <h1 className={styles.h1white}>
                         Ever wished for a wallet manager for your Metamask? Well, Piper Wallet
                         brings you just that! Piper Wallet is a wallet manager for all your wallet
                         accounts. With just a few clicks, you can transfer money between your

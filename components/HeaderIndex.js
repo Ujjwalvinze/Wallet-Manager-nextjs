@@ -12,7 +12,7 @@ export default function HeaderIndex() {
             backgroundColor="#000000"
             backgroundURL="https://moralis.io/wp-content/uploads/2021/06/blue-blob-background-2.svg"
             height="176px"
-            rounded="20px"
+            rounded="0px"
             textColor="#FFFFFF"
         >
             <div className={styles.grid}>

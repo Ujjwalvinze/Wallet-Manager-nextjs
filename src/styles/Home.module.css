@@ -1,4 +1,5 @@
 .main {
+  background-color: #000000;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -30,6 +31,9 @@
 }
 .h1{
   color: black;
+}
+.h1white{
+  color: #FFFFFF;
 }
 
 .mainAddAccount {
