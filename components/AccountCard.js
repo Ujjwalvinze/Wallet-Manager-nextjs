@@ -21,11 +21,10 @@ const truncateStr = (fullStr, strLen) => {
 
 const truncateBal = (bal) => {
     const balance = ethers.utils.formatUnits(bal, "ether");
-    console.log(balance);
     return balance;
 };
 
-export default function AccountCard({ accountAddress }) {
+export default function AccountCard({ accountAddress, ownerAddress }) {
     if (accountAddress == 0) {
         return <div></div>;
     }
@@ -38,7 +37,12 @@ export default function AccountCard({ accountAddress }) {
 
     const [balance, setBalance] = useState("0");
 
-    console.log(accountAddress);
+    const { runContractFunction: refreshBalance } = useWeb3Contract({
+        abi: abi,
+        contractAddress: managerAddress,
+        functionName: "refreshBalance",
+        params: {},
+    });
 
     const { runContractFunction: getBalanceOf } = useWeb3Contract({
         abi: abi,
@@ -48,6 +52,11 @@ export default function AccountCard({ accountAddress }) {
     });
 
     async function updateUI() {
+        await refreshBalance({
+            onError: (error) => {
+                console.log(error);
+            },
+        });
         const balanceFromCall = await getBalanceOf();
         setBalance(balanceFromCall);
     }
@@ -69,6 +78,7 @@ export default function AccountCard({ accountAddress }) {
                     backgroundColor="black"
                     borderColor="#000000"
                     description={[
+                        `Owner : ${truncateStr(ownerAddress, 10)}`,
                         `Address : ${truncateStr(accountAddress, 10)}`,
                         `Balance : ${truncateBal(balance)} ETH`,
                     ]}

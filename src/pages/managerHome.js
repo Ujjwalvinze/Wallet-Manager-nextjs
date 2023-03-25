@@ -4,11 +4,20 @@ import { useNotification, Form, Input, Button, ConnectButton, CryptoLogos } from
 import { useEffect, useState } from "react";
 import AccountCard from "components/AccountCard";
 
+import { gql, useQuery } from "@apollo/client";
+import OWNER_TO_ACCOUNTS_ITEMS from "../../constants/subgraphQueries";
+
 import styles from "@/styles/Home.module.css";
 
 const NULL_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 export default function ManagerHome() {
+    const { loading, error, data: ownerToAccountsData } = useQuery(OWNER_TO_ACCOUNTS_ITEMS);
+
+    // if (!loading) {
+    //     console.log(ownerToAccountsData.ownerToAccounts);
+    // }
+
     /// Variables
     const { chainId: chainIdInHex, isWeb3Enabled, account } = useMoralis();
     const chainId = parseInt(chainIdInHex);
@@ -18,10 +27,6 @@ export default function ManagerHome() {
     const dispatch = useNotification();
 
     const [ownerOfAccount, setOwnerOfAccount] = useState("0");
-    const [allAccounts, setAllAccounts] = useState(["0"]);
-    const [showAccounts, setShowAccounts] = useState(false);
-
-    console.log(managerAddress);
 
     // Contract Functions
 
@@ -90,23 +95,11 @@ export default function ManagerHome() {
             },
         });
         setOwnerOfAccount(ownerFromCall);
-
-        console.log(ownerFromCall);
-
-        setShowAccounts(true);
-    }
-
-    async function updateAccounts() {
-        const accountsFromCall = await getAccounts();
-        setAllAccounts(accountsFromCall);
     }
 
     useEffect(() => {
         if (isWeb3Enabled || account || ownerOfAccount) {
             updateUI();
-        }
-        if (showAccounts) {
-            updateAccounts();
         }
     }, [isWeb3Enabled, ownerOfAccount, account]);
 
@@ -136,16 +129,22 @@ export default function ManagerHome() {
                             </div>
                         ) : (
                             <div>
-                                {allAccounts != undefined ? (
+                                {!loading ? (
                                     <div className={styles.gridAccountCards}>
-                                        {allAccounts.map((acc) => {
-                                            if (acc == NULL_ADDRESS) {
-                                                return;
-                                            } else return <AccountCard accountAddress={acc} />;
+                                        {ownerToAccountsData.ownerToAccounts.map((items) => {
+                                            const { ownerAccount, account: acc } = items;
+                                            if (ownerAccount == ownerOfAccount.toLowerCase()) {
+                                                return (
+                                                    <AccountCard
+                                                        accountAddress={acc}
+                                                        ownerAddress={ownerAccount}
+                                                    />
+                                                );
+                                            }
                                         })}
                                     </div>
                                 ) : (
-                                    <div></div>
+                                    <div>Loading...</div>
                                 )}
                             </div>
                         )}
